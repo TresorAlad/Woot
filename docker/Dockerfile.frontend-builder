@@ -1,0 +1,23 @@
+FROM node:24-alpine
+
+ARG PNPM_VERSION="10.2.0"
+ENV PNPM_HOME="/root/.local/share/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+ENV NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider"
+
+RUN npm install -g pnpm@${PNPM_VERSION}
+
+WORKDIR /app
+
+# Installer les dépendances node (couche cachée si package.json n'a pas changé)
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+
+# Copier le reste du code source
+COPY . /app
+
+# Construire les assets Vite
+RUN NODE_ENV=production pnpm vite build
+
+# Garder l'image active pour qu'on puisse copier avec docker cp
+CMD ["sh", "-c", "echo 'Build terminé' && ls /app/public/vite/assets/ | wc -l && tail -f /dev/null"]

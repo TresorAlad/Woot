@@ -1,0 +1,14 @@
+Woot
+====
+
+Woot est une plateforme de support client derivee de Chatwoot.
+
+Copyright (c) Chatwoot contributors - voir LICENSE (MIT)
+
+Modifications et extensions Woot / ConvertTrack :
+- Sidecar Python ConvertTrack (webhook, analyse IA)
+- Bootstrap Ruby (labels, inbox, activation Captain)
+- Optimisations performance (GlobalConfig, Neon)
+- Customisations self-hosted (canaux, email providers)
+
+Le dossier enterprise/ contient l'Enterprise Edition de Chatwoot, necessaire au fonctionnement de Captain.
