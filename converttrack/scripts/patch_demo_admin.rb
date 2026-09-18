@@ -58,19 +58,25 @@ live.each { |c| c.update_columns(assignee_id: user.id, updated_at: Time.current)
 others.sample((others.size * 0.4).round).each { |c| c.update_columns(assignee_id: user.id, updated_at: Time.current) } # rubocop:disable Rails/SkipsModelValidations
 
 web_inbox = account.inboxes.find_by('name LIKE ?', 'Demo Site Web%')
-assistant = account.captain_assistants.find_by(name: 'ConvertTrack Copilot')
+assistant = account.captain_assistants.find_by(name: 'Captain') ||
+            account.captain_assistants.find_by(name: 'ConvertTrack Copilot')
 
 unless assistant
   raise 'Inbox Demo Site Web introuvable' unless web_inbox
 
   assistant = Captain::Assistant.create!(
     account: account,
-    name: 'ConvertTrack Copilot',
-    description: 'Assistant demo ConvertTrack pour le site web.',
+    name: 'Captain',
+    description: 'Assistant Captain pour le site web demo.',
     config: { feature_faq: true, feature_memory: true, product_name: account.name }
   )
   CaptainInbox.create!(captain_assistant: assistant, inbox: web_inbox)
   puts '[converttrack-demo] Captain Copilot cree'
+end
+
+if assistant.name == 'ConvertTrack Copilot'
+  assistant.update!(name: 'Captain', description: 'Assistant Captain pour le site web demo.')
+  puts '[converttrack-demo] Assistant renomme en Captain'
 end
 
 Converttrack::CaptainKnowledgeSeeder.seed!(account: account, assistant: assistant)

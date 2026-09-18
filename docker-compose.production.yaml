@@ -35,6 +35,7 @@ services:
     restart: always
     volumes:
       - storage_data:/app/storage
+      - ./public/vite:/app/public/vite:ro
       - ./config/database.yml:/app/config/database.yml:ro
       - ./docker/entrypoints/rails-neon.sh:/app/docker/entrypoints/rails-neon.sh:ro
       - ./config/initializers/converttrack_captain_llm.rb:/app/config/initializers/converttrack_captain_llm.rb:ro
@@ -42,6 +43,7 @@ services:
       - ./lib/llm/config.rb:/app/lib/llm/config.rb:ro
       - ./converttrack/scripts:/app/converttrack/scripts:ro
       - ./enterprise/app/models/concerns/agentable.rb:/app/enterprise/app/models/concerns/agentable.rb:ro
+      - ./app/javascript/dashboard/components-next/sidebar/Sidebar.vue:/app/app/javascript/dashboard/components-next/sidebar/Sidebar.vue:ro
 
   sidekiq:
     <<: *woot-base

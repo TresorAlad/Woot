@@ -11,6 +11,7 @@ require Rails.root.join('lib/seeders/reports/assistant_conversation_creator')
 module Converttrack
   class DemoSeeder # rubocop:disable Metrics/ClassLength
     include ActiveSupport::Testing::TimeHelpers
+    CAPTAIN_ASSISTANT_NAME = 'Captain'
     DEMO_EMAIL_DOMAIN = '@demo.converttrack.local'
     DEMO_CLIENT_DOMAIN = '@demo-client.fr'
     DEMO_TEAMS = %w[support ventes marketing].freeze
@@ -142,7 +143,7 @@ module Converttrack
     end
 
     def clear_captain_data!
-      assistant_ids = @account.captain_assistants.where(name: 'ConvertTrack Copilot').pluck(:id)
+      assistant_ids = @account.captain_assistants.where(name: CAPTAIN_ASSISTANT_NAME).pluck(:id)
       return if assistant_ids.empty?
 
       ConversationOutcome.where(account_id: @account.id).delete_all if defined?(ConversationOutcome)
@@ -432,8 +433,8 @@ module Converttrack
       web_inbox = @inboxes[:web]
       @assistant = Captain::Assistant.create!(
         account: @account,
-        name: 'ConvertTrack Copilot',
-        description: 'Assistant demo ConvertTrack pour le site web.',
+        name: CAPTAIN_ASSISTANT_NAME,
+        description: 'Assistant Captain pour le site web demo.',
         config: { feature_faq: true, feature_memory: true, product_name: @account.name }
       )
       CaptainInbox.create!(captain_assistant: @assistant, inbox: web_inbox)

@@ -27,14 +27,14 @@ rm -rf public/vite
 mkdir -p public/vite
 docker cp "$BUILDER_CONTAINER:/app/public/vite/." public/vite/
 
+echo "[woot] Redemarrage rails et sidekiq (volume public/vite)..."
+docker compose -f docker-compose.production.yaml up -d rails sidekiq
+
 if [ -n "$RAILS_CONTAINER" ]; then
-  echo "[woot] Copie des assets dans le conteneur rails ($RAILS_CONTAINER)..."
-  docker cp public/vite/. "$RAILS_CONTAINER:/app/public/vite/"
+  MANIFEST="$(grep -o 'dashboard-[^\"]*\\.js' public/vite/.vite/manifest.json | head -1 || true)"
+  echo "[woot] Assets servis: ${MANIFEST:-manifest introuvable}"
 else
   echo "[woot] Conteneur rails absent, assets disponibles dans public/vite/"
 fi
-
-echo "[woot] Redemarrage rails et sidekiq..."
-docker compose -f docker-compose.production.yaml up -d rails sidekiq
 
 echo "[woot] Termine. Rechargez Woot (Ctrl+F5)."
