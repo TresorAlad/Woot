@@ -1,0 +1,20 @@
+{
+  "CONVERTTRACK": {
+    "OVERVIEW": {
+      "TITLE": "ConvertTrack IA",
+      "SUBTITLE": "Classification automatique, priorites et suggestions de reponse via RodiumAi (Mistral).",
+      "STATUS_TITLE": "Etat du service",
+      "LOADING": "Verification en cours...",
+      "ERROR": "ConvertTrack est indisponible. Verifiez le conteneur converttrack.",
+      "FLOW_TITLE": "Fonctionnement",
+      "FLOW_1": "Un message arrive (Website, WhatsApp, Gmail...).",
+      "FLOW_2": "ConvertTrack analyse le message avec Mistral.",
+      "FLOW_3": "Labels intent/pipeline/priorite appliques sur la conversation.",
+      "FLOW_4": "Note privee avec suggestion + assignation agent."
+    },
+    "TEST": {
+      "TITLE": "Test widget Website",
+      "SUBTITLE": "Envoyez un message test pour declencher le webhook ConvertTrack."
+    }
+  }
+}

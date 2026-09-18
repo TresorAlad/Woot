@@ -4,6 +4,7 @@ from flask import Flask, render_template_string, request
 
 from app.config import Config
 from app.routes.webhook import webhook_bp
+from app.routes.workspaces import workspaces_bp
 
 TEST_PAGE = """<!DOCTYPE html>
 <html lang=\"fr\">
@@ -43,6 +44,7 @@ def create_app(config_class=Config):
     app.config.from_object(config_class)
 
     app.register_blueprint(webhook_bp)
+    app.register_blueprint(workspaces_bp)
 
     @app.after_request
     def add_cors_headers(response):

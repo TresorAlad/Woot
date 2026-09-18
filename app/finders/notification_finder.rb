@@ -11,7 +11,7 @@ class NotificationFinder
   end
 
   def notifications
-    @notifications.page(current_page).per(RESULTS_PER_PAGE).order(last_activity_at: sort_order)
+    ordered_notifications.page(current_page).per(RESULTS_PER_PAGE)
   end
 
   def unread_count
@@ -37,7 +37,11 @@ class NotificationFinder
   end
 
   def find_all_notifications
-    @notifications = current_user.notifications.where(account_id: @current_account.id)
+    @notifications = current_user.notifications.where(account_id: @current_account.id).includes(
+      :user,
+      :secondary_actor,
+      primary_actor: [:contact, :assignee, :inbox, :team, :contact_inbox]
+    )
   end
 
   def filter_snoozed_notifications
@@ -57,6 +61,26 @@ class NotificationFinder
   end
 
   def sort_order
-    params[:sort_order] || :desc
+    params[:sort_order]&.to_sym || :desc
+  end
+
+  def ordered_notifications
+    return @notifications.order(last_activity_at: :asc) if sort_order == :asc
+
+    @notifications
+      .joins(relevance_join_sql)
+      .reorder(
+        Arel.sql('CASE WHEN notifications.read_at IS NULL THEN 0 ELSE 1 END'),
+        Arel.sql('COALESCE(conversations.priority, 0) DESC'),
+        Notification.arel_table[:last_activity_at].desc
+      )
+  end
+
+  def relevance_join_sql
+    <<~SQL.squish
+      LEFT JOIN conversations
+        ON conversations.id = notifications.primary_actor_id
+       AND notifications.primary_actor_type = 'Conversation'
+    SQL
   end
 end

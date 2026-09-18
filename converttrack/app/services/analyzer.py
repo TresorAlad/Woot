@@ -24,24 +24,35 @@ Regles:
 - suggested_reply: courte, professionnelle, en francais
 """
 
+FALLBACK_RESULT = {
+    "intent": "autre",
+    "pipeline_stage": "nouveau",
+    "suggested_reply": "",
+    "confidence": 0.0,
+}
+
 
 def analyze_message(message_content: str) -> dict[str, Any]:
-    content = RodiumClient().chat_completion(
-        [
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": message_content},
-        ]
-    )
+    try:
+        content = RodiumClient().chat_completion(
+            [
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": message_content},
+            ]
+        )
 
-    if content.startswith("```"):
-        content = content.strip("`")
-        if content.startswith("json"):
-            content = content[4:].strip()
+        if content.startswith("```"):
+            content = content.strip("`")
+            if content.startswith("json"):
+                content = content[4:].strip()
 
-    result = json.loads(content)
-    return {
-        "intent": result.get("intent", "autre"),
-        "pipeline_stage": result.get("pipeline_stage", "nouveau"),
-        "suggested_reply": result.get("suggested_reply", ""),
-        "confidence": float(result.get("confidence", 0.0)),
-    }
+        result = json.loads(content)
+        return {
+            "intent": result.get("intent", "autre"),
+            "pipeline_stage": result.get("pipeline_stage", "nouveau"),
+            "suggested_reply": result.get("suggested_reply", ""),
+            "confidence": float(result.get("confidence", 0.0)),
+        }
+    except Exception as exc:
+        logger.warning("Analyse LLM fallback: %s", exc)
+        return dict(FALLBACK_RESULT)

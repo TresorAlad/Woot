@@ -53,7 +53,7 @@
       "SORT": "Sort",
       "DISPLAY": "Display :",
       "SORT_OPTIONS": {
-        "NEWEST": "Newest",
+        "NEWEST": "Most relevant",
         "OLDEST": "Oldest",
         "PRIORITY": "Priority"
       },

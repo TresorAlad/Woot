@@ -15,6 +15,7 @@ import ChannelName from './components/ChannelName.vue';
 import ChannelIcon from 'next/icon/ChannelIcon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import { getInboxIdentifier, searchInboxes } from 'dashboard/helper/inbox';
+import { useAccount } from 'dashboard/composables/useAccount';
 
 const IDENTIFIER_SEPARATOR = '·';
 
@@ -28,13 +29,21 @@ const selectedInbox = ref({});
 const searchQuery = ref('');
 
 const inboxes = useMapGetter('inboxes/getInboxes');
+const { currentAccount } = useAccount();
+
+const converttrackDemoInboxId = computed(
+  () => Number(currentAccount.value?.settings?.converttrack_demo_inbox_id) || null
+);
 
 onActivated(() => {
   store.dispatch('inboxes/get');
 });
 
 const inboxesList = computed(() => {
+  const demoInboxId = converttrackDemoInboxId.value;
+
   return inboxes.value
+    ?.filter(inbox => !demoInboxId || inbox.id !== demoInboxId)
     ?.map(inbox => ({
       ...inbox,
       channel_identifier: getInboxIdentifier(inbox),

@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Canape Oslo",
+    "sku": "CAN-OSLO-001",
+    "price": "185 000 FCFA",
+    "availability": "En stock",
+    "delivery_days": "3-5",
+    "colors": ["Bleu", "Gris", "Beige"]
+  },
+  {
+    "name": "Table basse Natura",
+    "sku": "TAB-NAT-002",
+    "price": "95 000 FCFA",
+    "availability": "En stock",
+    "delivery_days": "3-5",
+    "colors": ["Chene", "Noyer"]
+  },
+  {
+    "name": "Bureau Ergo",
+    "sku": "BUR-ERG-003",
+    "price": "220 000 FCFA",
+    "availability": "En stock",
+    "delivery_days": "5-7",
+    "colors": ["Blanc", "Noir"]
+  },
+  {
+    "name": "Lampadaire Arc",
+    "sku": "LAM-ARC-004",
+    "price": "45 000 FCFA",
+    "availability": "Stock limite",
+    "delivery_days": "2-4",
+    "colors": ["Noir", "Dore"]
+  },
+  {
+    "name": "Chaise Scandi",
+    "sku": "CHS-SCA-005",
+    "price": "35 000 FCFA",
+    "availability": "En stock",
+    "delivery_days": "3-5",
+    "colors": ["Blanc", "Vert sauge"]
+  },
+  {
+    "name": "Armoire Zen",
+    "sku": "ARM-ZEN-006",
+    "price": "310 000 FCFA",
+    "availability": "Sur commande",
+    "delivery_days": "10-14",
+    "colors": ["Chene"]
+  },
+  {
+    "name": "Matelas Confort Plus",
+    "sku": "MAT-CFP-007",
+    "price": "175 000 FCFA",
+    "availability": "En stock",
+    "delivery_days": "4-6",
+    "colors": ["140x190", "160x200"]
+  },
+  {
+    "name": "Etagere Murale Line",
+    "sku": "ETA-LIN-008",
+    "price": "28 000 FCFA",
+    "availability": "En stock",
+    "delivery_days": "2-3",
+    "colors": ["Blanc", "Noir"]
+  },
+  {
+    "name": "Tapis Berbere",
+    "sku": "TAP-BER-009",
+    "price": "120 000 FCFA",
+    "availability": "En stock",
+    "delivery_days": "5-7",
+    "colors": ["160x230"]
+  },
+  {
+    "name": "Set Coussins Deco",
+    "sku": "COU-DEC-010",
+    "price": "18 000 FCFA",
+    "availability": "En stock",
+    "delivery_days": "2-3",
+    "colors": ["Terracotta", "Bleu nuit"]
+  }
+]

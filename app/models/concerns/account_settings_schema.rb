@@ -29,6 +29,18 @@ module AccountSettingsSchema
           'type': %w[object null],
           'properties': CAPTAIN_FEATURE_PROPERTIES,
           'additionalProperties': false
+        },
+        'converttrack_automation_mode': {
+          'type': %w[string null],
+          'enum': ['classification', 'agentic', 'hybrid', nil]
+        },
+        'converttrack_workspace_type': {
+          'type': %w[string null],
+          'enum': ['marketing', 'support', 'reclamations', 'custom', nil]
+        },
+        'converttrack_catalog_sources': {
+          'type': %w[array null],
+          'items': { 'type': 'string' }
         }
       },
     'required': [],

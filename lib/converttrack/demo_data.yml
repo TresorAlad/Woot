@@ -1,0 +1,292 @@
+teams:
+  - support
+  - ventes
+  - marketing
+
+agents:
+  - name: Marie Kone
+    email: marie.kone@demo.converttrack.local
+    teams: [support]
+  - name: Ibrahim Traore
+    email: ibrahim.traore@demo.converttrack.local
+    teams: [ventes]
+  - name: Awa Diallo
+    email: awa.diallo@demo.converttrack.local
+    teams: [support, marketing]
+  - name: Yao Kouassi
+    email: yao.kouassi@demo.converttrack.local
+    teams: [marketing]
+  - name: Fatou Bamba
+    email: fatou.bamba@demo.converttrack.local
+    teams: [support, ventes]
+
+custom_attributes:
+  - key: produit_interet
+    display_name: Produit d interet
+    display_type: text
+  - key: budget
+    display_name: Budget
+    display_type: text
+  - key: canal_acquisition
+    display_name: Canal d acquisition
+    display_type: list
+    values: [WhatsApp, Site web, Email, Instagram, SMS]
+  - key: statut_client
+    display_name: Statut client
+    display_type: list
+    values: [Prospect, Client actif, A relancer]
+
+contacts:
+  - name: Amadou Diallo
+    email: amadou.diallo@demo-client.fr
+    phone_number: "+2250708090101"
+    contact_type: lead
+    city: Abidjan
+    country: Cote d Ivoire
+    country_code: CI
+    company: Diallo Commerce
+    produit_interet: Canape Oslo
+    budget: 150 000 - 200 000 FCFA
+    canal_acquisition: WhatsApp
+    statut_client: Prospect
+    labels: [pipeline-interet, intent-prix]
+    inboxes: [whatsapp, email]
+    federation: true
+    note: "Client interesse par promo ete, rappeler vendredi."
+  - name: Fatou Keita
+    email: fatou.keita@demo-client.fr
+    phone_number: "+221771234567"
+    contact_type: customer
+    city: Dakar
+    country: Senegal
+    country_code: SN
+    company: Keita Mode
+    produit_interet: Table basse Natura
+    budget: 80 000 FCFA
+    canal_acquisition: Site web
+    statut_client: Client actif
+    labels: [pipeline-converti]
+    inboxes: [web, whatsapp]
+    federation: true
+  - name: Jean-Marc Dupont
+    email: jeanmarc.dupont@demo-client.fr
+    phone_number: "+33612345678"
+    contact_type: customer
+    city: Paris
+    country: France
+    country_code: FR
+    produit_interet: Lampadaire Arc
+    budget: 250 EUR
+    canal_acquisition: Email
+    statut_client: Client actif
+    labels: [pipeline-prix]
+    inboxes: [email, web]
+    federation: true
+  - name: Aissata Coulibaly
+    email: aissata.coulibaly@demo-client.fr
+    phone_number: "+2250506070809"
+    contact_type: lead
+    city: Bouake
+    country: Cote d Ivoire
+    country_code: CI
+    produit_interet: Canape Oslo
+    budget: 120 000 FCFA
+    canal_acquisition: WhatsApp
+    statut_client: A relancer
+    labels: [pipeline-relance]
+    inboxes: [whatsapp]
+  - name: Koffi Mensah
+    email: koffi.mensah@demo-client.fr
+    phone_number: "+233241234567"
+    contact_type: lead
+    city: Accra
+    country: Ghana
+    country_code: GH
+    produit_interet: Bureau Ergo
+    budget: 300 000 FCFA
+    canal_acquisition: Instagram
+    statut_client: Prospect
+    labels: [pipeline-interet, priorite-moyenne]
+    inboxes: [whatsapp, email]
+
+campaigns:
+  - title: Promo ete 2026
+    message: "Profitez de -15% sur toute la collection ete jusqu au 30 juin !"
+    inbox: sms
+    campaign_type: one_off
+    campaign_status: completed
+    audience_labels: [pipeline-interet]
+  - title: Relance panier
+    message: "Votre panier vous attend ! Finalisez votre commande aujourd hui."
+    inbox: sms
+    campaign_type: one_off
+    campaign_status: active
+    audience_labels: [pipeline-relance]
+  - title: Bienvenue visiteurs
+    message: "Bienvenue ! Posez vos questions, notre equipe vous repond rapidement."
+    inbox: web
+    campaign_type: ongoing
+    campaign_status: active
+    trigger_url: "http://127.0.0.1:5000/test"
+
+scenarios:
+  - id: prix
+    intent: prix
+    labels: [intent-prix, pipeline-interet, priorite-haute]
+    priority: high
+    messages:
+      - type: incoming
+        content: "Bonjour, quel est le prix du canape Oslo en tissu bleu ?"
+      - type: private
+        content: "ConvertTrack IA - intent: prix, pipeline: interet, priorite: haute"
+      - type: outgoing
+        sender: agent
+        content: "Bonjour ! Le canape Oslo est a 185 000 FCFA. Souhaitez-vous les options de livraison ?"
+      - type: incoming
+        content: "Oui, pour Abidjan c est combien de delai ?"
+      - type: outgoing
+        sender: agent
+        content: "Livraison Abidjan : 3 a 5 jours ouvrables. Je peux vous envoyer un devis."
+  - id: disponibilite
+    intent: disponibilite
+    labels: [intent-disponibilite, pipeline-interet, priorite-moyenne]
+    priority: medium
+    messages:
+      - type: incoming
+        content: "Bonjour, est-ce que la table Natura est disponible en stock ?"
+      - type: private
+        content: "ConvertTrack IA - intent: disponibilite, pipeline: interet"
+      - type: outgoing
+        sender: agent
+        content: "Bonjour ! Oui, nous avons 4 unites en stock. Couleur chene ou noyer ?"
+      - type: incoming
+        content: "Chene s il vous plait. Je peux passer commande ?"
+      - type: outgoing
+        sender: agent
+        content: "Parfait, je vous envoie le lien de paiement par email."
+  - id: livraison
+    intent: livraison
+    labels: [intent-livraison, pipeline-prix, priorite-moyenne]
+    priority: medium
+    messages:
+      - type: incoming
+        content: "Quel est le delai de livraison pour Dakar ?"
+      - type: private
+        content: "ConvertTrack IA - intent: livraison, pipeline: prix"
+      - type: outgoing
+        sender: agent
+        content: "Livraison Dakar : 5 a 7 jours ouvrables. Frais : 15 000 FCFA."
+      - type: incoming
+        content: "D accord merci, je confirme ma commande."
+  - id: sav
+    intent: autre
+    labels: [intent-autre, pipeline-relance, priorite-haute]
+    priority: urgent
+    messages:
+      - type: incoming
+        content: "Bonjour, j ai recu un canape avec un defaut de couture. Que faire ?"
+      - type: private
+        content: "ConvertTrack IA - intent: autre, pipeline: relance, priorite: haute"
+      - type: outgoing
+        sender: agent
+        content: "Desole pour ce desagrement. Pouvez-vous m envoyer une photo du defaut ?"
+      - type: incoming
+        content: "Voici, la couture cote droit est ouverte."
+      - type: outgoing
+        sender: agent
+        content: "Merci. Nous organisons un echange sous 48h. Un technicien vous contactera."
+  - id: info
+    intent: info
+    labels: [intent-info, pipeline-nouveau, priorite-basse]
+    priority: low
+    messages:
+      - type: incoming
+        content: "Bonjour, quels sont vos horaires d ouverture ?"
+      - type: private
+        content: "ConvertTrack IA - intent: info, pipeline: nouveau"
+      - type: outgoing
+        sender: agent
+        content: "Bonjour ! Showroom Lun-Sam 9h-19h. Support en ligne 7j/7."
+  - id: relance
+    intent: prix
+    labels: [intent-prix, pipeline-relance, priorite-moyenne]
+    priority: medium
+    messages:
+      - type: incoming
+        content: "J avais laisse un panier hier, la promo est-elle toujours valable ?"
+      - type: private
+        content: "ConvertTrack IA - intent: prix, pipeline: relance"
+      - type: outgoing
+        sender: agent
+        content: "Oui, -15% encore 48h ! Je vous renvoie le lien de votre panier."
+  - id: promo
+    intent: info
+    labels: [intent-info, pipeline-interet]
+    priority: medium
+    messages:
+      - type: incoming
+        content: "J ai recu votre SMS promo. Le canape Oslo est-il inclus ?"
+      - type: outgoing
+        sender: agent
+        content: "Oui, toute la collection salon est incluse. Code : ETE2026."
+  - id: captain_faq
+    intent: prix
+    labels: [intent-prix, pipeline-interet]
+    priority: medium
+    inbox: web
+    messages:
+      - type: incoming
+        content: "Quel est le prix du bureau Ergo et la livraison ?"
+      - type: private
+        content: "ConvertTrack IA - intent: prix, pipeline: interet"
+      - type: outgoing
+        sender: captain
+        content: "Le bureau Ergo est a 220 000 FCFA. Livraison gratuite a Abidjan sous 5 jours."
+      - type: incoming
+        content: "Parfait merci !"
+  - id: captain_handoff
+    intent: autre
+    labels: [intent-autre, priorite-haute]
+    priority: high
+    inbox: web
+    messages:
+      - type: incoming
+        content: "Je veux parler a un conseiller pour une commande en gros."
+      - type: private
+        content: "ConvertTrack IA - intent: autre, handoff requis"
+      - type: outgoing
+        sender: captain
+        content: "Je vous mets en relation avec un conseiller commercial."
+      - type: outgoing
+        sender: agent
+        content: "Bonjour, Ibrahim du service Ventes. Combien d unites souhaitez-vous ?"
+  - id: escalade
+    intent: autre
+    labels: [intent-autre, priorite-haute, pipeline-perdu]
+    priority: urgent
+    messages:
+      - type: incoming
+        content: "Tres decu, ma commande a 2 semaines de retard !"
+      - type: private
+        content: "ConvertTrack IA - intent: autre, priorite: haute, escalade"
+      - type: outgoing
+        sender: agent
+        content: "Je comprends votre frustration. Je verifie le suivi colis immediatement."
+      - type: incoming
+        content: "J attends une reponse depuis 3 jours..."
+      - type: private
+        sender: agent
+        content: "Escalade manager - client VIP insatisfait"
+
+message_variants:
+  incoming:
+    - "Bonjour, j aimerais des informations sur vos produits."
+    - "Est-ce que vous livrez en province ?"
+    - "Avez-vous ce modele en promotion ?"
+    - "Je souhaite modifier ma commande."
+    - "Pouvez-vous me rappeler demain matin ?"
+  outgoing:
+    - "Bonjour ! Je suis la pour vous aider."
+    - "Merci pour votre message, je verifie et reviens vers vous."
+    - "Voici les details demandes. N hesitez pas si vous avez d autres questions."
+    - "Votre demande a ete transmise a l equipe concernee."

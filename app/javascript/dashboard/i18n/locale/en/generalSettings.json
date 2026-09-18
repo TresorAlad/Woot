@@ -104,6 +104,37 @@
           "ERROR": "Failed to update audio transcription setting"
         }
       },
+      "CONVERTTRACK": {
+        "TITLE": "ConvertTrack AI",
+        "NOTE": "Configure classification, automation mode, and product catalogs for this workspace.",
+        "SUBMIT": "Save ConvertTrack settings",
+        "WORKSPACE_TYPE": {
+          "LABEL": "Workspace type"
+        },
+        "WORKSPACE_TYPES": {
+          "CUSTOM": "Custom",
+          "MARKETING": "Marketing",
+          "SUPPORT": "Support",
+          "RECLAMATIONS": "Claims"
+        },
+        "AUTOMATION_MODE": {
+          "LABEL": "AI automation mode",
+          "HELP": "Classification: labels and suggestions only. Agentic: Captain replies automatically. Hybrid: Captain replies using ConvertTrack classification."
+        },
+        "AUTOMATION_MODES": {
+          "CLASSIFICATION": "Classification (human validates)",
+          "AGENTIC": "Agentic (Captain auto-reply)",
+          "HYBRID": "Hybrid (Captain with classification)"
+        },
+        "CATALOG_SOURCES": {
+          "LABEL": "Product catalog URLs (one per line)",
+          "PLACEHOLDER": "https://example.com/catalog.json"
+        },
+        "API": {
+          "SUCCESS": "ConvertTrack settings updated successfully",
+          "ERROR": "Failed to update ConvertTrack settings"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Inactivity duration for resolution",
         "HELP": "Duration after a conversation should auto resolve if there is no activity",

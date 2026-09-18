@@ -9,6 +9,8 @@ module Concerns::Agentable
       instructions: ->(context) { agent_instructions(context, runtime_configuration: runtime_configuration) },
       tools: agent_tools,
       model: agent_model,
+      provider: agent_provider,
+      assume_model_exists: custom_installation_model?,
       temperature: temperature.presence&.to_f || DEFAULT_TEMPERATURE,
       response_schema: agent_response_schema
     )
@@ -33,10 +35,20 @@ module Concerns::Agentable
   end
 
   def agent_model
+    return installation_model if installation_model.present?
+
     route = Llm::FeatureRouter.resolve(feature: 'assistant', account: account)
     return route[:model] if route[:source] == :account_override || account&.feature_enabled?('captain_integration_v2')
 
-    installation_model.presence || route[:model]
+    route[:model]
+  end
+
+  def agent_provider
+    custom_installation_model? ? :openai : nil
+  end
+
+  def custom_installation_model?
+    installation_model.present?
   end
 
   private

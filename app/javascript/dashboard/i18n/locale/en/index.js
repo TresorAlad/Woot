@@ -40,6 +40,7 @@ import teamsSettings from './teamsSettings.json';
 import whatsappTemplates from './whatsappTemplates.json';
 import whatsappTemplateMgmt from './whatsappTemplateMgmt.json';
 import contentTemplates from './contentTemplates.json';
+import converttrack from './converttrack.json';
 import mfa from './mfa.json';
 import onboarding from './onboarding.json';
 import sessionLimit from './sessionLimit.json';
@@ -88,6 +89,7 @@ export default {
   ...whatsappTemplates,
   ...whatsappTemplateMgmt,
   ...contentTemplates,
+  ...converttrack,
   ...mfa,
   ...onboarding,
   ...sessionLimit,

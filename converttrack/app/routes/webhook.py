@@ -4,8 +4,10 @@ import logging
 
 from flask import Blueprint, current_app, jsonify, request
 
+from app.services.account_settings import account_settings_service
 from app.services.analyzer import analyze_message
 from app.services.chatwoot import ChatwootClient
+from app.services.federation import ContactFederationStore
 
 logger = logging.getLogger(__name__)
 
@@ -65,12 +67,19 @@ def chatwoot_webhook():
         logger.warning("Payload incomplet: account_id=%s conversation_id=%s", account_id, conversation_id)
         return jsonify({"error": "missing ids"}), 422
 
+    account_id = int(account_id)
+    client = ChatwootClient(account_id=account_id)
+    automation_mode = account_settings_service.get_automation_mode(account_id, client)
+
     try:
         analysis = analyze_message(payload["content"])
-        result = ChatwootClient().apply_analysis(
-            int(account_id), int(conversation_id), analysis, payload
-        )
-        return jsonify({"status": "processed", "analysis": result}), 200
+        result = client.apply_analysis(account_id, int(conversation_id), analysis, payload)
+        ContactFederationStore().record_event(account_id, payload, analysis)
+        return jsonify({
+            "status": "processed",
+            "analysis": result,
+            "automation_mode": automation_mode,
+        }), 200
     except Exception as exc:
         logger.exception("Erreur traitement webhook: %s", exc)
         return jsonify({"error": str(exc)}), 500

@@ -59,6 +59,8 @@ class Account < ApplicationRecord
   store_accessor :settings, :reporting_timezone
   store_accessor :settings, :keep_pending_on_bot_failure
   store_accessor :settings, :captain_auto_resolve_mode, :captain_false_promise_harness_enabled
+  store_accessor :settings, :converttrack_automation_mode, :converttrack_workspace_type, :converttrack_catalog_sources,
+                 :converttrack_demo_inbox_id
   include AccountCaptainAutoResolve
 
   has_many :account_users, dependent: :destroy_async

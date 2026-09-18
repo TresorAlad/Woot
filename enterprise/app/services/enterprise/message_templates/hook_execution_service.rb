@@ -9,6 +9,7 @@ module Enterprise::MessageTemplates::HookExecutionService
     # otherwise the coverage denominator only ever contains conversations
     # Captain was already about to answer.
     track_captain_eligibility
+    return if converttrack_classification_only?
     return unless conversation.pending?
     return perform_handoff unless inbox.captain_active?
 
@@ -81,5 +82,9 @@ module Enterprise::MessageTemplates::HookExecutionService
 
   def captain_assistant_configured?
     inbox.captain_assistant.present?
+  end
+
+  def converttrack_classification_only?
+    conversation.account.settings['converttrack_automation_mode'] == 'classification'
   end
 end

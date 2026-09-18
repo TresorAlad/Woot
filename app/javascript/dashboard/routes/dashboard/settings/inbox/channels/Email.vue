@@ -7,34 +7,29 @@ import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 
 import { useStoreGetters } from 'dashboard/composables/store';
-import { useAccount } from 'dashboard/composables/useAccount';
 import { useI18n } from 'vue-i18n';
 
 const provider = ref('');
 
 const getters = useStoreGetters();
 const { t } = useI18n();
-const { isOnChatwootCloud } = useAccount();
 
 const globalConfig = getters['globalConfig/get'];
 const isAChatwootInstance = getters['globalConfig/isAChatwootInstance'];
 
 const emailProviderList = computed(() => {
-  const allProvidersEnabled = !isOnChatwootCloud.value;
-
   return [
     {
       title: t('INBOX_MGMT.EMAIL_PROVIDERS.MICROSOFT.TITLE'),
       description: t('INBOX_MGMT.EMAIL_PROVIDERS.MICROSOFT.DESCRIPTION'),
-      isEnabled: allProvidersEnabled || !!globalConfig.value.azureAppId,
+      isEnabled: !!globalConfig.value.azureAppId,
       key: 'microsoft',
       icon: 'i-woot-outlook',
     },
     {
       title: t('INBOX_MGMT.EMAIL_PROVIDERS.GOOGLE.TITLE'),
       description: t('INBOX_MGMT.EMAIL_PROVIDERS.GOOGLE.DESCRIPTION'),
-      isEnabled:
-        allProvidersEnabled || !!window.chatwootConfig.googleOAuthClientId,
+      isEnabled: !!window.chatwootConfig.googleOAuthClientId,
       key: 'google',
       icon: 'i-woot-gmail',
     },
@@ -46,10 +41,10 @@ const emailProviderList = computed(() => {
       icon: 'i-woot-mail',
     },
   ].filter(providerConfig => {
-    if (isAChatwootInstance.value || allProvidersEnabled) {
+    if (isAChatwootInstance.value) {
       return true;
     }
-    return providerConfig.isEnabled;
+    return providerConfig.isEnabled || providerConfig.key === 'other_provider';
   });
 });
 

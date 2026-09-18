@@ -39,3 +39,8 @@
   title: 'Handoff to Human'
   description: 'Hand off the conversation to a human agent'
   icon: 'user-switch'
+
+- id: product_lookup
+  title: 'Product Lookup'
+  description: 'Search connected product catalogs for price, availability, and delivery'
+  icon: 'search'
